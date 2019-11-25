@@ -7,4 +7,4 @@ filename = str(input('Masukan filename (dengan .txt) : '))
 
 input = open(filename, 'r').read()
 
-print(input)
+print(input[1])
