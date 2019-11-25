@@ -5,6 +5,6 @@ print('Initiating...')
 
 filename = str(input('Masukan filename (dengan .txt) : '))
 
-input = open(filename, "r").read()
+input = open(filename, 'r').read()
 
 print(input)
