@@ -28,8 +28,8 @@
 
 ## Laporan
 
-Untuk laporan dapat dilihat (diedit) [disini](https://docs.google.com/document/d/1Ksd6sgLSNxuogbfTeBj4lmX0nOqXF2e3NhpsVeTRTG4/edit?usp=sharing)
-Untuk website IRK dapat dilihat [disini](https://irklab.site/)
+Untuk laporan dapat dilihat (diedit) [disini](https://docs.google.com/document/d/1Ksd6sgLSNxuogbfTeBj4lmX0nOqXF2e3NhpsVeTRTG4/edit?usp=sharing)  
+Untuk website IRK dapat dilihat [disini](https://irklab.site/)  
 
 
 ## Mental Support
