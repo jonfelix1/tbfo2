@@ -76,7 +76,7 @@ class Lexer(object):
 
         self.regex = re.compile('|'.join(regex_parts))
         self.skip_whitespace = skip_whitespace
-        self.re_ws_skip = re.compile('\S')
+        self.re_ws_skip = re.compile('[^ \t\r\f\v]')
 
     def input(self, buf):
         """ Initialize the lexer with a buffer as input.
@@ -125,6 +125,7 @@ class Lexer(object):
 
 if __name__ == '__main__':
     rules = [
+        ('\n',                          'ENDLINE'),
         ('\d+',                         'NUMBER'),
         ('from',                        'FROM'),
         ('import',                      'IMPORT'),
@@ -132,31 +133,43 @@ if __name__ == '__main__':
         ('if',                          'IF'),
         ('else',                        'ELSE'),
         ('elif',                        'ELIF'),
-        ('__\w+__',                     'STATEMENT'),
-        ('\+|\-|\*|\/|and|or|not|is',   'OPERATOR'),
+        ('def',                         'DEF'),
+        ('__\w+__',                     'MAGICMETHOD'),
+        ('\->',                         'ARROW'),
+        ('\.',                           'PERIOD'),
+        ('(\+|\-|\*|\/)',               'OPERATOR'),
+        ('is\s',                        'LOGICALOPERATOR'),
+        ('or\s',                        'LOGICALOPERATOR'),
+        ('and\s',                        'LOGICALOPERATOR'),
+        ('not\s',                        'LOGICALOPERATOR'),
         ('[a-zA-Z_](\w+)*',             'IDENTIFIER'),
         ('\(',                          'LEFTP'),
         ('\)',                          'RIGHTP'),
+        ('\[',                           'LEFTSB'),
+        ('\]',                           'RIGHTSB'),
         ('\>|\<',                       'COMPARATOR'),
         ('=',                           'EQUALS'),
         (':',                           'COLON'),
+        (',',                           'COMMA'),        
         ('\'',                          'QUOTE'),
         ('\"',                          'DOUBLEQUOTE'),
+        ('return',                      'RETURN'),
         ('True',                        'TRUE'),
         ('False',                       'FALSE'),
         ('None',                        'NONE'),
         ('break',                       'BREAK'),
         ('continue',                    'CONTINUE'),
         ('pass',                        'PASS'),
-        ('\w+',                         'ALPHANUM')
     ]
-
-    inputtext = '''if((a > b) and ((b < c) or (c >=10))) :
+    '''if((a > b) and ((b < c) or (c >=10))) :
                                 a + b
                             elif (a>b):
                                 a + c
                             else:
                                 a + c'''
+    inputtext = '''cat\n
+    dog
+'''
     tokensarray = []
 
     lx = Lexer(rules, skip_whitespace=True)
@@ -165,7 +178,7 @@ if __name__ == '__main__':
     try:
         for tok in lx.tokens():
             tokensarray.append(tok.type)
-            print(tok.type)
+            print(tok)
     except LexerError as err:
         print('LexerError at position %s' % err.pos)
 
@@ -177,7 +190,7 @@ if __name__ == '__main__':
     #argparser.add_argument("sentence",
                             #help="File containing the sentence or string directly representing the sentence.")
     #args = argparser.parse_args()
-    CYK = cyk.Parser("exprgrammar.txt", inputstring)
+    CYK = cyk.Parser("grammar.txt", inputstring)
     CYK.parse()
     CYK.print_tree()
 
