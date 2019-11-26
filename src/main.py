@@ -85,8 +85,3 @@ print(inputstring)
 CYK = cyk.Parser("grammar.txt", inputstring)
 CYK.parse()
 CYK.print_tree()
-
-
-
-
-#print(input[6])
