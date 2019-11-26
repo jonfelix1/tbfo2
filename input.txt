@@ -1,0 +1,8 @@
+''' if((a > b) and ((b < c) or (c >=10))) :
+                                a + b
+                            elif (a>b):
+                                a + c
+                            elif (a > b):
+                                a + b
+                            else:
+                                a + c'''
