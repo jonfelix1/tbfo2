@@ -130,21 +130,33 @@ if __name__ == '__main__':
         ('import',                      'IMPORT'),
         ('as',                          'AS'),
         ('if',                          'IF'),
+        ('else',                        'ELSE'),
+        ('elif',                        'ELIF'),
+        ('__\w+__',                     'STATEMENT'),
+        ('\+|\-|\*|\/|and|or|not|is',   'OPERATOR'),
         ('[a-zA-Z_](\w+)*',             'IDENTIFIER'),
-        ('[\+|\-|\*|\/|and|or|not|is]', 'OPERATOR'),
         ('\(',                          'LEFTP'),
         ('\)',                          'RIGHTP'),
-        ('[\>|\<]',                     'COMPARATOR'),
+        ('\>|\<',                       'COMPARATOR'),
         ('=',                           'EQUALS'),
+        (':',                           'COLON'),
+        ('\'',                          'QUOTE'),
+        ('\"',                          'DOUBLEQUOTE'),
         ('True',                        'TRUE'),
         ('False',                       'FALSE'),
         ('None',                        'NONE'),
         ('break',                       'BREAK'),
         ('continue',                    'CONTINUE'),
         ('pass',                        'PASS'),
+        ('\w+',                         'ALPHANUM')
     ]
 
-    inputtext = '((a))'
+    inputtext = '''if((a > b) and ((b < c) or (c >=10))) :
+                                a + b
+                            elif (a>b):
+                                a + c
+                            else:
+                                a + c'''
     tokensarray = []
 
     lx = Lexer(rules, skip_whitespace=True)
@@ -165,7 +177,7 @@ if __name__ == '__main__':
     #argparser.add_argument("sentence",
                             #help="File containing the sentence or string directly representing the sentence.")
     #args = argparser.parse_args()
-    CYK = cyk.Parser("grammar.txt", inputstring)
+    CYK = cyk.Parser("exprgrammar.txt", inputstring)
     CYK.parse()
     CYK.print_tree()
 
