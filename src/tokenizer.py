@@ -1,75 +1,75 @@
 import re
 import sys
-
-#Kalo belom familiar, __init__ buat inisiasi object (mirip struct di C), __str__ itu jika object di print
+import cyk_parser as cyk
+import os.path
+import argparse
+import grammar_converter
 
 class Token(object):
-
     def __init__(self, type, value, position):
         self.type = type
         self.value = value
-        self.position = position #Buat ntar kalo code error
+        self.position = position
 
-    def __str__(self): #Jika object di print
-        return '%s(%s) at %s' %(self.type, self.value, self.position)
+    def __str__(self):
+        return '%s(%s) at %s' % (self.type, self.value, self.position)
+
+    def __repr__(self):
+        return '%s(%s) at %s' % (self.type, self.value, self.position)
+
 
 class Error(Exception):
+    def __init__(self, position):
+        self.position = position
 
-    def __init__(self, pos, errType=0):
-        self.pos = pos
-        self.errType = errType
 
-class Parser(object):
-
-    def __init__(self, rules, skip_space=True):
-
-        i = 1
+class Lexer(object):
+    def __init__(self, rules, skip_ws=True):
+        idx = 1
         regex_parts = []
         self.group_type = {}
 
         for regex, type in rules:
-            groupname = 'GROUP%s' % i
+            groupname = 'GROUP%s' % idx
             regex_parts.append('(?P<%s>%s)' % (groupname, regex))
             self.group_type[groupname] = type
-            i += 1
+            idx += 1
 
         self.regex = re.compile('|'.join(regex_parts))
-        self.skip_space = skip_space
-        self.re_s_skip = re.compile(r'\S')
+        self.skip_ws = skip_ws
+        self.re_ws_skip = re.compile('[^ \t\r\f\v]')
 
-    def input(self, buffer, position=0):
+    def input(self, buffer):
+
         self.buffer = buffer
-        self.position = position
+        self.position = 0
 
     def token(self):
         if self.position >= len(self.buffer):
             return None
         else:
-            if self.skip_space:
-                m = self.re_s_skip.search(self.buffer, self.position)
+            if self.skip_ws:
+                match = self.re_ws_skip.search(self.buffer, self.position)
 
-                if m:
-                    self.position = m.start()
+                if match:
+                    self.position = match.start()
                 else:
                     return None
 
-            m = self.regex.match(self.buffer, self.position)
+            match = self.regex.match(self.buffer, self.position)
+            if match:
+                groupname = match.lastgroup
+                tokenn_type = self.group_type[groupname]
+                tokenn = Token(tokenn_type, match.group(groupname), self.position)
+                self.position = match.end()
+                return tokenn
 
-            if m:
-                groupname = m.lastgroup
-                token_type = self.group_type[groupname]
-                token = Token(token_type, m.group(groupname), self.position)
-                self.pos = m.end()
-                return token
-
-            raise Error(self.position)
+            # if we're here, no rule matched
+            raise LexerError(self.position)
 
     def tokens(self):
-        stop = False
-        while(not(stop)):
+        while True:
             tokenn = self.token()
-            if tokenn is None:
-                stop = True
+            if tokenn is None: 
+                break
             yield tokenn
-
-
