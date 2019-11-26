@@ -117,7 +117,7 @@ class Parser(object):
                             right_nodes = [n for n in right_cell if n.symbol == rules[2]]
                             self.parse_table[ww - 1][start].extend([Node(rules[0], left, right) for left in left_nodes for right in right_nodes])
 
-    def print_tree(self):
+    def print_out(self):
         start_symbol = self.grammar[0][0]
         final_nodes = [a for a in self.parse_table[-1][0] if (a.symbol == start_symbol)]
         if final_nodes:
