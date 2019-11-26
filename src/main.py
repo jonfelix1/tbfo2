@@ -8,6 +8,10 @@ print('Initiating...')
 
 rules = [
         ('\n',                          'ENDLINE'),
+        ('\'\'\'.*(\n.*)*\'\'\'',       'MULTILINECOMMENT'),
+        ('\"\"\".*(\n.*)*\"\"\"',       'MULTILINECOMMENT'),
+        ('\'.*\'',                      'STRING'),
+        ('\".*\"',                      'STRING'),
         ('\d+',                         'NUMBER'),
         ('from',                        'FROM'),
         ('import',                      'IMPORT'),
@@ -24,15 +28,18 @@ rules = [
         ('or\s',                        'LOGICALOPERATOR'),
         ('and\s',                        'LOGICALOPERATOR'),
         ('not\s',                        'LOGICALOPERATOR'),
-        ('[a-zA-Z_](\w+)*',             'IDENTIFIER'),
         ('\(',                          'LEFTP'),
         ('\)',                          'RIGHTP'),
         ('\[',                           'LEFTSB'),
         ('\]',                           'RIGHTSB'),
+        ('\{',                          'LEFTCB'),
+        ('\}',                          'RIGHTCB'),
         ('\>|\<',                       'COMPARATOR'),
         ('=',                           'EQUALS'),
         (':',                           'COLON'),
-        (',',                           'COMMA'),        
+        (',',                           'COMMA'),      
+        ('#',                           'CRASH'),
+        ('\'\'\'',                      'TRIPLEQUOTE'),  
         ('\'',                          'QUOTE'),
         ('\"',                          'DOUBLEQUOTE'),
         ('return',                      'RETURN'),
@@ -42,6 +49,9 @@ rules = [
         ('break',                       'BREAK'),
         ('continue',                    'CONTINUE'),
         ('pass',                        'PASS'),
+        ('raise',                       'RAISE'),
+        ('with'                         ,'WITH'),
+        ('[a-zA-Z_](\w+)*',             'IDENTIFIER'),
     ]
 
 # inputtext = '''if((a > b) and ((b < c) or (c >=10))) :
@@ -76,4 +86,4 @@ CYK.print_tree()
 
 
 
-print(input[6])
+#print(input[6])
