@@ -43,6 +43,10 @@ tokensarray = []
 
 lx = gistfile1.Lexer(rules)
 
+filename = str(input('Masukan filename (dengan .txt) : '))
+
+input = open(filename, 'r').read()
+lx.input(input)
 
 try:
     for tok in lx.tokens():
@@ -59,9 +63,6 @@ CYK.parse()
 CYK.print_tree()
 
 
-filename = str(input('Masukan filename (dengan .txt) : '))
 
-input = open(filename, 'r').read()
-lx.input(input)
 
 print(input[6])
