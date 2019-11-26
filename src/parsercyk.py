@@ -123,10 +123,10 @@ class Parser(object):
         if final_nodes:
             print('\n' + Fore.GREEN + 'Input Benar')
             print(Style.RESET_ALL)
-            print("Possible parse(s):")
-            trees = [make_tree(node) for node in final_nodes]
-            for tree in trees:
-                print(tree)
+            # print("Possible parse(s):")
+            # trees = [make_tree(node) for node in final_nodes]
+            # for tree in trees:
+            #     print(tree)
 
         else:
             print('\n' + Fore.RED + 'Syntax Error')

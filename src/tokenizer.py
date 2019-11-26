@@ -45,31 +45,31 @@ class Lexer(object):
         self.position = 0
 
     def token(self):
-        if self.position >= len(self.buffer):
+        if (self.position >= len(self.buffer)):
             return None
         else:
-            if self.skip_ws:
+            if (self.skip_ws):
                 match = self.re_ws_skip.search(self.buffer, self.position)
 
-                if match:
+                if (match):
                     self.position = match.start()
                 else:
                     return None
 
             match = self.regex.match(self.buffer, self.position)
-            if match:
+            if (match):
                 groupname = match.lastgroup
                 tokenn_type = self.group_type[groupname]
                 tokenn = Token(tokenn_type, match.group(groupname), self.position)
                 self.position = match.end()
                 return tokenn
 
-            # if we're here, no rule matched
-            raise LexerError(self.position)
+            # kalo gk ada match
+            raise Error(self.position)
 
     def tokens(self):
-        while True:
+        while(True):
             tokenn = self.token()
-            if tokenn is None: 
+            if (tokenn is None): 
                 break
             yield tokenn

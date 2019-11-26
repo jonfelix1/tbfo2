@@ -1,5 +1,6 @@
 import tokenizer as tt
 import parsercyk as cyk
+from colorama import Fore, Style
 
 print('Initiating...')
 
@@ -74,11 +75,14 @@ try:
         tokensarray.append(tok.type)
         print(tok.type)
 except tt.Error as err:
-    print('Error at position %s' % err.pos)
+    print('Error at position %s' % err.position)
 
 inputstring = ' '.join(tokensarray)
 #print(inputstring)
 
 CYK = cyk.Parser("grammar.txt", inputstring)
-CYK.parse()
-CYK.print_tree()
+if input:
+    CYK.parse()
+    CYK.print_tree()
+else:
+    print('\n' + Fore.GREEN + 'Input Benar (Input kosong)')
