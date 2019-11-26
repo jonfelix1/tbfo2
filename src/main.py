@@ -7,6 +7,7 @@ import grammar_converter
 print('Initiating...')
 
 rules = [
+        ('\n',                          'ENDLINE'),
         ('\d+',                         'NUMBER'),
         ('from',                        'FROM'),
         ('import',                      'IMPORT'),
@@ -14,23 +15,33 @@ rules = [
         ('if',                          'IF'),
         ('else',                        'ELSE'),
         ('elif',                        'ELIF'),
-        ('__\w+__',                     'STATEMENT'),
-        ('\+|\-|\*|\/|and|or|not|is',   'OPERATOR'),
+        ('def',                         'DEF'),
+        ('__\w+__',                     'MAGICMETHOD'),
+        ('\->',                         'ARROW'),
+        ('\.',                           'PERIOD'),
+        ('(\+|\-|\*|\/)',               'OPERATOR'),
+        ('is\s',                        'LOGICALOPERATOR'),
+        ('or\s',                        'LOGICALOPERATOR'),
+        ('and\s',                        'LOGICALOPERATOR'),
+        ('not\s',                        'LOGICALOPERATOR'),
         ('[a-zA-Z_](\w+)*',             'IDENTIFIER'),
         ('\(',                          'LEFTP'),
         ('\)',                          'RIGHTP'),
+        ('\[',                           'LEFTSB'),
+        ('\]',                           'RIGHTSB'),
         ('\>|\<',                       'COMPARATOR'),
         ('=',                           'EQUALS'),
         (':',                           'COLON'),
+        (',',                           'COMMA'),        
         ('\'',                          'QUOTE'),
         ('\"',                          'DOUBLEQUOTE'),
+        ('return',                      'RETURN'),
         ('True',                        'TRUE'),
         ('False',                       'FALSE'),
         ('None',                        'NONE'),
         ('break',                       'BREAK'),
         ('continue',                    'CONTINUE'),
         ('pass',                        'PASS'),
-        ('\w+',                         'ALPHANUM')
     ]
 
 # inputtext = '''if((a > b) and ((b < c) or (c >=10))) :
