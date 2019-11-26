@@ -86,7 +86,7 @@ class Parser(object):
 
     def __init__(self, grammar, sentence):
         # Grammar langsung baca dari file
-        self.parse_table = None
+        self.parse_arr = None
         self.prods = {}
         self.grammar = convert_grammar(read_grammar(grammar))
         self.__call__(sentence)
@@ -96,30 +96,30 @@ class Parser(object):
 
     def parse(self):
 
-        self.parse_table = [[[] for x in range(len(self.input) - y)] for y in range(len(self.input))]
+        self.parse_arr = [[[] for x in range(len(self.input) - y)] for y in range(len(self.input))]
 
         for i, word in enumerate(self.input):
             for rules in self.grammar:
                 if f"'{word}'" == rules[1]:
-                    self.parse_table[0][i].append(Node(rules[0], word))
+                    self.parse_arr[0][i].append(Node(rules[0], word))
         
         for ww in range(2, len(self.input) + 1):
             for start in range(0, len(self.input) - ww + 1):
                 for left_size in range(1, ww):
                     right_size = ww - left_size
 
-                    left_cell = self.parse_table[left_size - 1][start]
-                    right_cell = self.parse_table[right_size - 1][start + left_size]
+                    left_cell = self.parse_arr[left_size - 1][start]
+                    right_cell = self.parse_arr[right_size - 1][start + left_size]
 
                     for rules in self.grammar:
                         left_nodes = [n for n in left_cell if n.symbol == rules[1]]
                         if left_nodes:
                             right_nodes = [n for n in right_cell if n.symbol == rules[2]]
-                            self.parse_table[ww - 1][start].extend([Node(rules[0], left, right) for left in left_nodes for right in right_nodes])
+                            self.parse_arr[ww - 1][start].extend([Node(rules[0], left, right) for left in left_nodes for right in right_nodes])
 
     def print_out(self):
         start_symbol = self.grammar[0][0]
-        final_nodes = [a for a in self.parse_table[-1][0] if (a.symbol == start_symbol)]
+        final_nodes = [a for a in self.parse_arr[-1][0] if (a.symbol == start_symbol)]
         if final_nodes:
             print('\n' + Fore.GREEN + 'Input Benar')
             print(Style.RESET_ALL)
