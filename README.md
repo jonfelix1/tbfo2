@@ -35,5 +35,5 @@ Untuk laporan dapat dilihat (diedit) [disini](https://docs.google.com/document/d
 Untuk website IRK dapat dilihat [disini](https://irklab.site/)  
 
 
-## Mental Support
-![alt text](https://i.imgur.com/rqP8T6O.jpg "Best Girl")
+<!-- ## Mental Support
+![alt text](https://i.imgur.com/rqP8T6O.jpg "Best Girl") -->
